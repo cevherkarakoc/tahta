@@ -14,10 +14,9 @@ const draw = (gl, mesh, attributesLocations, uniformList) => {
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 
-  uniformList.forEach(uniform => uniform.fn(uniform.value));
+  uniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location));
 
   gl.drawElements(gl.TRIANGLES, mesh.vertexCount, gl.UNSIGNED_SHORT, 0);
-
 };
 
 module.exports = draw;

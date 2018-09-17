@@ -9,8 +9,8 @@ const createMesh = (gl, vertices, indices) => {
 
   return {
     vertexBuffer: vertexBuffer,
-    indexBuffer : indexBuffer,
-    vertexCount : indices.length
+    indexBuffer: indexBuffer,
+    vertexCount: indices.length
   }
 }
 
