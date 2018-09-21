@@ -27,7 +27,7 @@ const test = () => {
         assert.equal(gl.getShaderParameter(shader, gl.COMPILE_STATUS), true);
       });
 
-      it('should be vertex shader', function () {
+      it('should return a vertex shader', function () {
         assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.VERTEX_SHADER);
       });
     });
@@ -39,7 +39,7 @@ const test = () => {
         assert.equal(gl.getShaderParameter(shader, gl.COMPILE_STATUS), true);
       });
 
-      it('should be fragment shader', function () {
+      it('should return a fragment shader', function () {
         assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.FRAGMENT_SHADER);
       });
     });
