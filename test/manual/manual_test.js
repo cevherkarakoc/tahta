@@ -2,11 +2,8 @@ import { Matrix } from "webgl-math";
 
 import { render, createShader, createShaderProgram, createMesh, loadImage, createTexture } from "../../index.js"
 
-const glMatrix = require('./gl-matrix-min.js');
-
 import vsSource from "./shaders/basic.vert"
 import fsSource from "./shaders/basic.frag"
-import { determinant } from "gl-matrix/src/gl-matrix/mat4";
 
 const canvas = document.querySelector("#webgl-canvas");
 const gl = canvas.getContext("webgl");
