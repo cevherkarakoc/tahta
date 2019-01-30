@@ -11,10 +11,12 @@ gl.clearColor(0.0, 0.0, 0.0, 1.0);
 gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 gl.enable(gl.BLEND);
 
+// Create a shader program
 const vertex = createShader(gl, gl.VERTEX_SHADER, vsSource);
 const fragment = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
 const sp = createShaderProgram(gl, vertex, fragment);
 
+// Create a mesh
 const vertices = new Float32Array([
   -1.0, -1.0, 0.0,
   1.0, -1.0, 0.0,
@@ -37,6 +39,7 @@ const meshList = [
 ];
 
 
+// Load textures
 const textureList = [];
 loadImage("./textureA.png")
   .then(image => {
