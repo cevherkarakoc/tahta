@@ -10,7 +10,7 @@ const render = (gl, shaderProgram, meshList, programUniformList, meshUniformList
 
   programUniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location))
 
-  textureList.map((texture, index) => {
+  textureList.forEach((texture, index) => {
     gl.activeTexture(gl.TEXTURE0 + index );
     gl.bindTexture(gl.TEXTURE_2D, texture);
   })
