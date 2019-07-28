@@ -15,7 +15,9 @@ const test = () => {
     ]);
     const indices = new Uint16Array([0, 1, 3, 0, 3, 2]);
 
-    const the_mesh = createMesh(gl, vertices, indices)
+    const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
+
+    const the_mesh = createMesh(gl, vertices, indices, texCoord, gl.TRIANGLES);
 
     it('should return vertex buffer', function () {
       assert.equal(gl.isBuffer(the_mesh.vertexBuffer), true);
@@ -23,6 +25,10 @@ const test = () => {
 
     it('should return index buffer', function () {
       assert.equal(gl.isBuffer(the_mesh.indexBuffer), true);
+    });
+
+    it('should return texture coordinates buffer', function () {
+      assert.equal(gl.isBuffer(the_mesh.texCoordBuffer), true);
     });
 
     it('should return vertex count', function () {

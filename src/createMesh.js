@@ -1,4 +1,4 @@
-const createMesh = (gl, vertices, indices, texCoord) => {
+const createMesh = (gl, vertices, indices, texCoord, drawMode) => {
   const vertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
@@ -15,7 +15,8 @@ const createMesh = (gl, vertices, indices, texCoord) => {
     vertexBuffer: vertexBuffer,
     indexBuffer: indexBuffer,
     texCoordBuffer: texCoordBuffer,
-    vertexCount: indices.length
+    vertexCount: indices.length,
+    drawMode
   }
 }
 

@@ -42,7 +42,7 @@ const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
 
 const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
-const square = createMesh(gl, vertices, indices, texCoord);
+const square = createMesh(gl, vertices, indices, texCoord, gl.TRIANGLE);
 
 const meshList = [square];
 

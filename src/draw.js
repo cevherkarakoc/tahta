@@ -29,7 +29,7 @@ const draw = (gl, mesh, attributesLocations, uniformList) => {
 
   uniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location));
 
-  gl.drawElements(gl.TRIANGLES, mesh.vertexCount, gl.UNSIGNED_SHORT, 0);
+  gl.drawElements(mesh.drawMode, mesh.vertexCount, gl.UNSIGNED_SHORT, 0);
 };
 
 module.exports = draw;
