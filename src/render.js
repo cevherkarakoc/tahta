@@ -1,12 +1,7 @@
 import draw from "./draw"
 
-const render = (gl, shaderProgram, meshList, programUniformList, meshUniformList, textureList = []) => {
+const render = (gl, shaderProgram, attributes, meshList, programUniformList, meshUniformList, textureList = []) => {
   gl.useProgram(shaderProgram)
-
-  const attributesLocations = {
-    position: gl.getAttribLocation(shaderProgram, 'aPosition'),
-    texCoord: gl.getAttribLocation(shaderProgram, 'aTexCoord'),
-  };
 
   programUniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location))
 
@@ -16,7 +11,7 @@ const render = (gl, shaderProgram, meshList, programUniformList, meshUniformList
   })
 
   meshList.forEach((mesh, index) => {
-    draw(gl, mesh, attributesLocations, meshUniformList[index]);
+    draw(gl, mesh, attributes, meshUniformList[index]);
   });
 
 };

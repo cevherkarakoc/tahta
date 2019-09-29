@@ -15,6 +15,7 @@ import fsSource from './shaders/basic.frag';
 const canvas = document.querySelector('#webgl-canvas');
 const gl = canvas.getContext('webgl2');
 gl.clearColor(0.0, 0.0, 0.0, 1.0);
+gl.frontFace(gl.CCW)
 gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 gl.enable(gl.BLEND);
 
@@ -42,9 +43,32 @@ const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
 
 const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
-const square = createMesh(gl, vertices, indices, texCoord, gl.TRIANGLE);
+const square = createMesh(gl)({ vertices, texCoord }, indices, gl.TRIANGLES);
 
 const meshList = [square];
+
+// Vertex Attributes
+
+const attributes = [
+  {
+    name: 'vertices',
+    location: gl.getAttribLocation(sp, 'aPosition'),
+    size: 3,
+    type: gl.FLOAT,
+    normalized: false,
+    stride: 0,
+    offset: 0
+  },
+  {
+    name: 'texCoord',
+    location: gl.getAttribLocation(sp, 'aTexCoord'),
+    size: 2,
+    type: gl.FLOAT,
+    normalized: false,
+    stride: 0,
+    offset: 0
+  },
+]
 
 // Load textures
 const textureList = [];
@@ -74,6 +98,7 @@ const loop = state => timestamp => {
   render(
     gl,
     sp,
+    attributes,
     meshList,
     calcProgramUniformList(state),
     calcMeshUniformList(state),
@@ -84,7 +109,7 @@ const loop = state => timestamp => {
 };
 
 const nextState = state => timestamp => {
-  const { pos,scale } = state;
+  const { pos, scale } = state;
 
   const angle = state.angle + 0.05;
   const rot = new Float32Array([angle, 0, angle * 0.2]);
@@ -99,7 +124,7 @@ const nextState = state => timestamp => {
 };
 
 const calcProgramUniformList = ({ eyePosition }) => {
-  const projectionMatrix = Camera.perspective(Math.PI / 4, 1, 0.1, 100);
+  const projectionMatrix = Camera.perspective(Math.PI / 4, 1, 0.01, 1000);
   //let projectionMatrix = Camera.ortho(-10,10, -10, 10, 1, 100);
   let viewMatrix = Camera.lookAt(
     eyePosition,
@@ -161,7 +186,7 @@ const initialState = {
   pos: new Float32Array([0, 0, 0]),
   rot: new Float32Array([0, 0, 0]),
   angle: Math.PI / 6,
-  eyePosition: new Float32Array([0, 0, 0]),
+  eyePosition: new Float32Array([0, 0, 10]),
 };
 
 console.log('GLMath Version : ', GLMath.VERSION);
