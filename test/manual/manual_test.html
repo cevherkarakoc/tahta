@@ -10,16 +10,27 @@
       margin: 0;
       padding: 0;
     }
-    body{
+
+    body {
       margin: 0;
-      padding: 0;
+      padding: 7px;
     }
   </style>
 </head>
 
-<body >
-  <h4>Hello World</h4>
-  <canvas id="webgl-canvas" width="500" height="500"></canvas>
+<body>
+  <div class="container">
+    <div class="top">
+      <canvas id="webgl-canvas-manual" width="512" height="512"></canvas>
+
+    </div>
+
+    <div class="bottom">
+      <canvas id="webgl-canvas2d" width="256" height="256"></canvas>
+      <img id="the-image" height="256" width="256">
+    </div>
+  </div>
   <script src="manual_test.js"></script>
 </body>
+
 </html>

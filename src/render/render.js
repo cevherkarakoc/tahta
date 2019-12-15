@@ -1,4 +1,4 @@
-import draw from './draw';
+const draw = require('./draw');
 
 const render = gl => (shaderProgram, attributes, meshList, programUniformList, meshUniformList, textureList = []) => {
   gl.useProgram(shaderProgram);

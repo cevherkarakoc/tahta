@@ -1,49 +1,36 @@
 import GLMath, { Vector, Matrix } from 'webgl-math';
 
-import {
-  render,
-  createShader,
-  createShaderProgram,
-  createMesh,
-  loadImage,
-  createTexture,
-} from '../../index.js';
+import { initTahta, loadImage } from '../../index';
 
 import vsSource from './shaders/basic.vert';
 import fsSource from './shaders/basic.frag';
 
-const canvas = document.querySelector('#webgl-canvas');
+const canvas = document.querySelector('#webgl-canvas-manual');
 const gl = canvas.getContext('webgl2');
-gl.clearColor(0.0, 0.0, 0.0, 1.0);
-gl.frontFace(gl.CCW)
-gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-gl.enable(gl.BLEND);
+
+const canvas2d = document.querySelector('#webgl-canvas2d');
+const ctx2d = canvas2d.getContext('2d');
+const imgElm = document.querySelector('#the-image');
+
+const { render, createRenderTarget, target, createShader, createShaderProgram, createMesh, createTexture } = initTahta(
+  gl
+);
+
+gl.clearColor(0.1, 0.1, 0.1, 1.0);
+gl.frontFace(gl.CCW);
 
 // Create a shader program
-const vertex = createShader(gl, gl.VERTEX_SHADER, vsSource);
-const fragment = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-const sp = createShaderProgram(gl, vertex, fragment);
+const vertex = createShader(gl.VERTEX_SHADER, vsSource);
+const fragment = createShader(gl.FRAGMENT_SHADER, fsSource);
+const sp = createShaderProgram(vertex, fragment);
 
 // Create a mesh
-const vertices = new Float32Array([
-  -1.0,
-  -1.0,
-  0.0,
-  1.0,
-  -1.0,
-  0.0,
-  1.0,
-  1.0,
-  0.0,
-  -1.0,
-  1.0,
-  0.0,
-]);
+const vertices = new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0]);
 const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
 
 const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
-const square = createMesh(gl)({ vertices, texCoord }, indices, gl.TRIANGLES);
+const square = createMesh({ vertices, texCoord }, indices, gl.TRIANGLES);
 
 const meshList = [square];
 
@@ -57,7 +44,7 @@ const attributes = [
     type: gl.FLOAT,
     normalized: false,
     stride: 0,
-    offset: 0
+    offset: 0,
   },
   {
     name: 'texCoord',
@@ -66,19 +53,19 @@ const attributes = [
     type: gl.FLOAT,
     normalized: false,
     stride: 0,
-    offset: 0
+    offset: 0,
   },
-]
+];
 
 // Load textures
 const textureList = [];
-loadImage('./textureA.png')
+loadImage('/textureA.png')
   .then(image => {
-    textureList.push(createTexture(gl, image, true));
-    return loadImage('./textureB.png');
+    textureList.push(createTexture(image, true));
+    return loadImage('/textureB.png');
   })
   .then(image => {
-    textureList.push(createTexture(gl, image, true));
+    textureList.push(createTexture(image, true));
   });
 
 const { Transform, Camera } = Matrix;
@@ -91,46 +78,52 @@ const xAxis = Float32Array.of(1, 0, 0);
 const yAxis = Float32Array.of(0, 1, 0);
 const zAxis = Float32Array.of(0, 0, 1);
 
-const loop = state => timestamp => {
-  gl.clear(gl.COLOR_BUFFER_BIT);
+const renderTargets = {
+  main: {
+    width: canvas.width,
+    height: canvas.height,
+  },
+  other: createRenderTarget(256, 256),
+};
 
-  //calcMeshUniformList(state)
-  render(
-    gl,
-    sp,
-    attributes,
-    meshList,
-    calcProgramUniformList(state),
-    calcMeshUniformList(state),
-    textureList
-  );
+const loop = state => timestamp => {
+  target(renderTargets.main);
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state), textureList);
+
+  target(renderTargets.other);
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state));
+
+  var bfdt = new Uint8Array(256 * 256 * 4);
+  gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, bfdt);
+
+  var imageData = ctx2d.createImageData(256, 256);
+  imageData.data.set(bfdt);
+  ctx2d.putImageData(imageData, 0, 0);
+
+  imgElm.src = canvas2d.toDataURL();
 
   window.requestAnimationFrame(loop(nextState(state)(timestamp)));
 };
 
 const nextState = state => timestamp => {
-  const { pos, scale } = state;
+  const { step } = state;
 
   const angle = state.angle + 0.05;
   const rot = new Float32Array([angle, 0, angle * 0.2]);
 
-  const eyePosition = Float32Array.of(
-    20 * Math.sin(timestamp * 0.001),
-    0,
-    10
-  );
+  const eyePosition = Float32Array.of(20 * Math.sin(timestamp * 0.001), 0, 10);
 
-  return { scale, rot, pos, angle, eyePosition };
+  return { ...state, rot, angle, eyePosition, step: step + 1 };
 };
 
 const calcProgramUniformList = ({ eyePosition }) => {
   const projectionMatrix = Camera.perspective(Math.PI / 4, 1, 0.01, 1000);
   //let projectionMatrix = Camera.ortho(-10,10, -10, 10, 1, 100);
-  let viewMatrix = Camera.lookAt(
-    eyePosition,
-    Float32Array.of(0, 0, -1),
-    Float32Array.of(0, 1, 0)
-  );
+  let viewMatrix = Camera.lookAt(eyePosition, Float32Array.of(0, 0, -1), Float32Array.of(0, 1, 0));
 
   return [
     {
@@ -165,10 +158,7 @@ const calcMeshUniformList = ({ scale, rot, pos }) => {
 
   const translateMatrix = Transform.translate(Matrix.idendity(4), pos);
 
-  const modelMatrix = Matrix.multiply(
-    Matrix.multiply(translateMatrix, rotationMatrix),
-    scaleMatrix
-  );
+  const modelMatrix = Matrix.multiply(Matrix.multiply(translateMatrix, rotationMatrix), scaleMatrix);
 
   return [
     [
@@ -187,6 +177,7 @@ const initialState = {
   rot: new Float32Array([0, 0, 0]),
   angle: Math.PI / 6,
   eyePosition: new Float32Array([0, 0, 10]),
+  step: 0,
 };
 
 console.log('GLMath Version : ', GLMath.VERSION);
