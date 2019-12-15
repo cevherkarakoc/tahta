@@ -3,8 +3,8 @@ const assert = require('assert');
 const createShader = require('../src/createShader');
 
 const test = () => {
-  const canvas = document.querySelector("#webgl-canvas");
-  const gl = canvas.getContext("webgl");
+  const canvas = document.querySelector('#webgl-canvas');
+  const gl = canvas.getContext('webgl');
 
   const vsSource = `
     void main() {
@@ -18,32 +18,31 @@ const test = () => {
     }
   `;
 
+  describe('createShader Function', function() {
+    describe('for Vertex Shader', function() {
+      const shader = createShader(gl)(gl.VERTEX_SHADER, vsSource);
 
-  describe('createShader Function', function () {
-    describe('for Vertex Shader', function () {
-      const shader = createShader(gl, gl.VERTEX_SHADER, vsSource);
-
-      it('should return a compiled shader', function () {
+      it('should return a compiled shader', function() {
         assert.equal(gl.getShaderParameter(shader, gl.COMPILE_STATUS), true);
       });
 
-      it('should return a vertex shader', function () {
+      it('should return a vertex shader', function() {
         assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.VERTEX_SHADER);
       });
     });
 
-    describe('for Fragment Shader', function () {
-      const shader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    describe('for Fragment Shader', function() {
+      const shader = createShader(gl)(gl.FRAGMENT_SHADER, fsSource);
 
-      it('should return a compiled shader', function () {
+      it('should return a compiled shader', function() {
         assert.equal(gl.getShaderParameter(shader, gl.COMPILE_STATUS), true);
       });
 
-      it('should return a fragment shader', function () {
+      it('should return a fragment shader', function() {
         assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.FRAGMENT_SHADER);
       });
     });
   });
-}
+};
 
 export default test;

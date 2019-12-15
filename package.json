@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "parcel test/test.html",
-    "test-manual": "parcel test/manual/manual_test.html"
+    "test": "parcel test/test.html test/manual/manual_test.html --open",
+    "test-manual": "parcel test/manual/manual_test.html --open"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,9 @@
     "jest": "^23.6.0",
     "jsdom": "^12.0.0",
     "mocha": "^5.2.0",
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "webgl-math": "^0.1.4"
   }
 }

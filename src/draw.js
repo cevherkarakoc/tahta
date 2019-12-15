@@ -10,10 +10,8 @@ const draw = (gl, mesh, attributes, uniformList) => {
       attribute.stride,
       attribute.offset
     );
+  });
 
-
-  })
-  
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 
   uniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location));

@@ -1,4 +1,4 @@
-const loadImage = url => (
+const loadImage = url =>
   new Promise((resolve, reject) => {
     const image = new Image();
 
@@ -7,7 +7,6 @@ const loadImage = url => (
     };
 
     image.src = url;
-  })
-);
+  });
 
 module.exports = loadImage;
