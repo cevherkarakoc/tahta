@@ -1,4 +1,4 @@
-const createMesh = (gl) => (attributes, indices, drawMode) => {
+const createMesh = gl => (attributes, indices, drawMode) => {
   const indexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
@@ -16,9 +16,8 @@ const createMesh = (gl) => (attributes, indices, drawMode) => {
     attributeBuffers: attributeBuffers,
     indexBuffer: indexBuffer,
     vertexCount: indices.length,
-    drawMode
-  }
-}
+    drawMode,
+  };
+};
 
 module.exports = createMesh;
-// TODO: better customizable vertex attributes
