@@ -4,11 +4,12 @@ const loadImage = require('../../src/texture/loadImage');
 
 const test = () => {
   describe('loadImage Function', function() {
+    let rootPath = 'manual/textures/';
     let imageSrc = 'textureA.png';
     let image;
 
     before(function() {
-      return loadImage('./' + imageSrc).then(function(img) {
+      return loadImage(rootPath + imageSrc).then(function(img) {
         image = img;
       });
     });
@@ -17,7 +18,7 @@ const test = () => {
       assert.equal(image.nodeName, 'IMG');
     });
 
-    it('should return the image with sended src', function() {
+    it('should return the image with passed src', function() {
       assert.equal(image.src.split('/').pop(), imageSrc);
     });
 

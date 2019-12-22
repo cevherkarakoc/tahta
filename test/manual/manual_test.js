@@ -58,15 +58,10 @@ const attributes = [
 ];
 
 // Load textures
-const textureList = [];
-loadImage('/textureA.png')
-  .then(image => {
-    textureList.push(createTexture(image, true));
-    return loadImage('/textureB.png');
-  })
-  .then(image => {
-    textureList.push(createTexture(image, true));
-  });
+const textureList = [
+  createTexture(document.getElementById('texA'), true),
+  createTexture(document.getElementById('texB'), true),
+];
 
 const { Transform, Camera } = Matrix;
 
@@ -89,13 +84,13 @@ const renderTargets = {
 const loop = state => timestamp => {
   target(renderTargets.main);
 
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.clear(gl.COLOR_BUFFER_BIT);
   render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state), textureList);
 
   target(renderTargets.other);
 
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state));
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state), textureList);
 
   var bfdt = new Uint8Array(256 * 256 * 4);
   gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, bfdt);

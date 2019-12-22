@@ -16,7 +16,7 @@ const test = () => {
           resolve(image);
         };
 
-        image.src = 'textureA.png';
+        image.src = 'manual/textures/textureA.png';
       });
     });
 
