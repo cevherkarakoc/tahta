@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assert').strict;
 
 const createTexture = require('../../src/texture/createTexture');
 

@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assert').strict;
 
 const createShader = require('../src/createShader');
 
@@ -27,7 +27,10 @@ const test = () => {
       });
 
       it('should return a vertex shader', function() {
-        assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.VERTEX_SHADER);
+        assert.equal(
+          gl.getShaderParameter(shader, gl.SHADER_TYPE),
+          gl.VERTEX_SHADER
+        );
       });
     });
 
@@ -39,7 +42,10 @@ const test = () => {
       });
 
       it('should return a fragment shader', function() {
-        assert.equal(gl.getShaderParameter(shader, gl.SHADER_TYPE), gl.FRAGMENT_SHADER);
+        assert.equal(
+          gl.getShaderParameter(shader, gl.SHADER_TYPE),
+          gl.FRAGMENT_SHADER
+        );
       });
     });
   });
