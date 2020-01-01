@@ -6,7 +6,7 @@ import vsSource from './shaders/basic.vert';
 import fsSource from './shaders/basic.frag';
 
 const canvas = document.querySelector('#webgl-canvas-manual');
-const gl = canvas.getContext('webgl2');
+const gl = canvas.getContext('webgl2', { premultipliedAlpha: false });
 
 const canvas2d = document.querySelector('#webgl-canvas2d');
 const ctx2d = canvas2d.getContext('2d');
@@ -16,7 +16,7 @@ const { render, createRenderTarget, target, createShader, createShaderProgram, c
   gl
 );
 
-gl.clearColor(0.1, 0.1, 0.1, 1.0);
+gl.clearColor(0.1, 0.1, 0.1, 0.0);
 gl.frontFace(gl.CCW);
 
 // Create a shader program

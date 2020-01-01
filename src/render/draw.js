@@ -1,3 +1,5 @@
+const uniformAll = require('./uniformAll');
+
 const draw = (gl, mesh, attributes, uniformList) => {
   attributes.forEach(attribute => {
     gl.bindBuffer(gl.ARRAY_BUFFER, mesh.attributeBuffers[attribute.name]);
@@ -14,7 +16,7 @@ const draw = (gl, mesh, attributes, uniformList) => {
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 
-  uniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location));
+  uniformAll(uniformList);
 
   gl.drawElements(mesh.drawMode, mesh.vertexCount, gl.UNSIGNED_SHORT, 0);
 };
