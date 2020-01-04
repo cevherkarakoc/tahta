@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assert').strict;
 
 const createRenderTarget = require('../../src/render/createRenderTarget');
 
@@ -26,7 +26,10 @@ const test = () => {
 
     it('should return a completed frame buffer', function() {
       assert.equal(gl.isFramebuffer(renderTarget.frameBuffer), true);
-      assert.equal(gl.checkFramebufferStatus(gl.FRAMEBUFFER), gl.FRAMEBUFFER_COMPLETE);
+      assert.equal(
+        gl.checkFramebufferStatus(gl.FRAMEBUFFER),
+        gl.FRAMEBUFFER_COMPLETE
+      );
     });
   });
 };

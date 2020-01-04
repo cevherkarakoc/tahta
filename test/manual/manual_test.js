@@ -1,22 +1,29 @@
 import GLMath, { Vector, Matrix } from 'webgl-math';
 
-import { initTahta, loadImage } from '../../index';
+import { initTahta } from '../../index';
 
 import vsSource from './shaders/basic.vert';
 import fsSource from './shaders/basic.frag';
 
 const canvas = document.querySelector('#webgl-canvas-manual');
-const gl = canvas.getContext('webgl2');
+const gl = canvas.getContext('webgl2', { premultipliedAlpha: false });
 
 const canvas2d = document.querySelector('#webgl-canvas2d');
 const ctx2d = canvas2d.getContext('2d');
 const imgElm = document.querySelector('#the-image');
 
-const { render, createRenderTarget, target, createShader, createShaderProgram, createMesh, createTexture } = initTahta(
-  gl
-);
+const {
+  render,
+  createRenderTarget,
+  target,
+  createShader,
+  createShaderProgram,
+  createMesh,
+  createTexture,
+  drawAll,
+} = initTahta(gl);
 
-gl.clearColor(0.1, 0.1, 0.1, 1.0);
+gl.clearColor(0.1, 0.1, 0.1, 0.0);
 gl.frontFace(gl.CCW);
 
 // Create a shader program
@@ -85,12 +92,19 @@ const loop = state => timestamp => {
   target(renderTargets.main);
 
   gl.clear(gl.COLOR_BUFFER_BIT);
-  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state), textureList);
+  render({
+    shaderProgram: sp,
+    programUniforms: calcProgramUniformList(state),
+    meshes: meshList,
+    meshUniforms: calcMeshUniformList(state),
+    attributes: attributes,
+    textures: textureList,
+  });
 
   target(renderTargets.other);
 
   gl.clear(gl.COLOR_BUFFER_BIT);
-  render(sp, attributes, meshList, calcProgramUniformList(state), calcMeshUniformList(state), textureList);
+  drawAll(meshList, calcMeshUniformList(state), attributes);
 
   var bfdt = new Uint8Array(256 * 256 * 4);
   gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, bfdt);

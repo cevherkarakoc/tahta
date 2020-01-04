@@ -1,18 +1,28 @@
-const draw = require('./draw');
+const uniformAll = require('./uniformAll');
+const bindTextures = require('./bindTextures');
+const drawAll = require('./drawAll');
 
-const render = gl => (shaderProgram, attributes, meshList, programUniformList, meshUniformList, textureList = []) => {
-  gl.useProgram(shaderProgram);
+const render = gl => {
+  const _bindTextures = bindTextures(gl);
+  const _drawAll = drawAll(gl);
 
-  programUniformList.forEach(uniform => uniform.fn(uniform.value, uniform.location));
+  return ({
+    shaderProgram,
+    programUniforms,
+    meshes,
+    meshUniforms,
+    attributes = [],
+    textures = [],
+    textureOffset = 0,
+  }) => {
+    gl.useProgram(shaderProgram);
 
-  textureList.forEach((texture, index) => {
-    gl.activeTexture(gl.TEXTURE0 + index);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-  });
+    uniformAll(programUniforms);
 
-  meshList.forEach((mesh, index) => {
-    draw(gl, mesh, attributes, meshUniformList[index]);
-  });
+    _bindTextures(textures, textureOffset);
+
+    _drawAll(meshes, meshUniforms, attributes);
+  };
 };
 
 module.exports = render;

@@ -7,6 +7,7 @@ import test_loadImage from './texture/loadImage.test.js';
 import test_createTexture from './texture/createTexture.test.js';
 
 import test_createRenderTarget from './render/createRenderTarget.test.js';
+import test_uniformAll from './render/uniformAll.test.js';
 
 mocha.setup({
   ui: 'bdd',
@@ -24,6 +25,7 @@ describe('Texture Related Functions', function() {
 
 describe('Rendering Related Functions', function() {
   test_createRenderTarget();
+  test_uniformAll();
 });
 
 mocha.run();
