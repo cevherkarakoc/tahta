@@ -1,4 +1,4 @@
-import GLMath, { Vector, Matrix } from 'webgl-math';
+import GLMath, { Vector, Matrix, Transform, Camera } from 'webgl-math';
 
 import { initTahta } from '../../index';
 
@@ -69,8 +69,6 @@ const textureList = [
   createTexture(document.getElementById('texA'), true),
   createTexture(document.getElementById('texB'), true),
 ];
-
-const { Transform, Camera } = Matrix;
 
 const X = 0,
   Y = 1,
