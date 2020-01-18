@@ -37,6 +37,7 @@ const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
 
 const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
+// Vertex Attributes
 const attributes = [
   {
     name: 'aPosition',
@@ -58,13 +59,9 @@ const attributes = [
   },
 ];
 
-const square = createMesh(attributes, { aPosition : vertices, aTexCoord : texCoord }, indices, gl.TRIANGLES);
+const square = createMesh(attributes, { aPosition: vertices, aTexCoord: texCoord }, indices, gl.TRIANGLES);
 
 const meshList = [square];
-
-// Vertex Attributes
-
-
 
 // Load textures
 const textureList = [
@@ -83,9 +80,9 @@ const zAxis = Float32Array.of(0, 0, 1);
 const renderTargets = {
   main: {
     width: canvas.width,
-    height: canvas.height,
+    height: canvas.height
   },
-  other: createRenderTarget(256, 256),
+  other: createRenderTarget(256, 256, gl.COLOR_ATTACHMENT0)
 };
 
 const loop = state => timestamp => {
@@ -97,14 +94,13 @@ const loop = state => timestamp => {
     programUniforms: calcProgramUniformList(state),
     meshes: meshList,
     meshUniforms: calcMeshUniformList(state),
-    attributes: attributes,
     textures: textureList,
   });
 
   target(renderTargets.other);
 
   gl.clear(gl.COLOR_BUFFER_BIT);
-  drawAll(meshList, calcMeshUniformList(state), attributes);
+  drawAll(meshList, calcMeshUniformList(state));
 
   var bfdt = new Uint8Array(256 * 256 * 4);
   gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, bfdt);

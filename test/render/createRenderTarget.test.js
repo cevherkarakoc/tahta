@@ -10,7 +10,7 @@ const test = () => {
     const width = 400;
     const height = 600;
 
-    const renderTarget = createRenderTarget(gl)(width, height);
+    const renderTarget = createRenderTarget(gl)(width, height, gl.COLOR_ATTACHMENT0, gl.COLOR_ATTACHMENT1);
 
     it('should return the same width', function() {
       assert.equal(renderTarget.width, width);
@@ -20,8 +20,9 @@ const test = () => {
       assert.equal(renderTarget.height, height);
     });
 
-    it('should return a texture', function() {
-      assert.equal(gl.isTexture(renderTarget.texture), true);
+    it('should return textures', function() {
+      assert.equal(gl.isTexture(renderTarget.textures[0]), true);
+      assert.equal(gl.isTexture(renderTarget.textures[1]), true);
     });
 
     it('should return a completed frame buffer', function() {
