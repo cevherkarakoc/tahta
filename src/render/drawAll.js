@@ -1,8 +1,8 @@
 const draw = require('./draw');
 
-const drawAll = gl => (meshList, meshUniformList, attributes = []) => {
+const drawAll = gl => (meshList, meshUniformList) => {
   meshList.forEach((mesh, index) => {
-    draw(gl, mesh, attributes, meshUniformList[index]);
+    draw(gl, mesh, meshUniformList[index]);
   });
 };
 

@@ -11,7 +11,6 @@ const render = gl => {
     programUniforms,
     meshes,
     meshUniforms,
-    attributes = [],
     textures = [],
     textureOffset = 0,
   }) => {
@@ -21,7 +20,7 @@ const render = gl => {
 
     _bindTextures(textures, textureOffset);
 
-    _drawAll(meshes, meshUniforms, attributes);
+    _drawAll(meshes, meshUniforms);
   };
 };
 

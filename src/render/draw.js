@@ -1,6 +1,6 @@
 const uniformAll = require('./uniformAll');
 
-const draw = (gl, mesh, attributes, uniformList) => {
+const draw = (gl, mesh, uniformList) => {
   gl.bindVertexArray(mesh.vao);
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
