@@ -4,7 +4,7 @@ const createRenderTarget = require('../../src/render/createRenderTarget');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');
-  const gl = canvas.getContext('webgl');
+  const gl = canvas.getContext('webgl2');
 
   describe('createRenderTarget Function', function() {
     const width = 400;

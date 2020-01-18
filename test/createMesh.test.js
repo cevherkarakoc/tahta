@@ -4,7 +4,7 @@ const createMesh = require('../src/createMesh');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');
-  const gl = canvas.getContext('webgl');
+  const gl = canvas.getContext('webgl2');
 
   describe('createMesh Function', function() {
     const vertices = new Float32Array([-1.0, 1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0]);
@@ -12,18 +12,35 @@ const test = () => {
 
     const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
-    const the_mesh = createMesh(gl)({ vertices, texCoord }, indices, gl.TRIANGLES);
+    const attributes = [
+      {
+        name: 'aPosition',
+        location: 0,
+        size: 3,
+        type: gl.FLOAT,
+        normalized: false,
+        stride: 0,
+        offset: 0,
+      },
+      {
+        name: 'aTexCoord',
+        location: 1,
+        size: 2,
+        type: gl.FLOAT,
+        normalized: false,
+        stride: 0,
+        offset: 0,
+      },
+    ];
+
+    const the_mesh = createMesh(gl)(attributes, { aPosition : vertices, aTexCoord : texCoord }, indices, gl.TRIANGLES);
 
     it('should return index buffer', function() {
       assert.equal(gl.isBuffer(the_mesh.indexBuffer), true);
     });
 
-    it('should return vertex buffer', function() {
-      assert.equal(gl.isBuffer(the_mesh.attributeBuffers.vertices), true);
-    });
-
-    it('should return texture coordinates buffer', function() {
-      assert.equal(gl.isBuffer(the_mesh.attributeBuffers.texCoord), true);
+    it('should return Vertex Array Object', function() {
+      assert.equal(gl.isVertexArray(the_mesh.vao), true);
     });
 
     it('should return vertex count', function() {

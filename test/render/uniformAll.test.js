@@ -4,7 +4,7 @@ const uniformAll = require('../../src/render/uniformAll');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');
-  const gl = canvas.getContext('webgl');
+  const gl = canvas.getContext('webgl2');
 
   describe('uniformAll Function', function() {
     const UNIFORM_VECTOR = 'uVector';
