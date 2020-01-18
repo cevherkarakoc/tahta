@@ -37,16 +37,10 @@ const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
 
 const texCoord = new Float32Array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
 
-const square = createMesh({ vertices, texCoord }, indices, gl.TRIANGLES);
-
-const meshList = [square];
-
-// Vertex Attributes
-
 const attributes = [
   {
-    name: 'vertices',
-    location: gl.getAttribLocation(sp, 'aPosition'),
+    name: 'aPosition',
+    location: 0,
     size: 3,
     type: gl.FLOAT,
     normalized: false,
@@ -54,8 +48,8 @@ const attributes = [
     offset: 0,
   },
   {
-    name: 'texCoord',
-    location: gl.getAttribLocation(sp, 'aTexCoord'),
+    name: 'aTexCoord',
+    location: 1,
     size: 2,
     type: gl.FLOAT,
     normalized: false,
@@ -63,6 +57,14 @@ const attributes = [
     offset: 0,
   },
 ];
+
+const square = createMesh(attributes, { aPosition : vertices, aTexCoord : texCoord }, indices, gl.TRIANGLES);
+
+const meshList = [square];
+
+// Vertex Attributes
+
+
 
 // Load textures
 const textureList = [

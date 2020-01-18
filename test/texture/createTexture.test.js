@@ -4,7 +4,7 @@ const createTexture = require('../../src/texture/createTexture');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');
-  const gl = canvas.getContext('webgl');
+  const gl = canvas.getContext('webgl2');
   let image;
 
   describe('createTexture Function', function() {
