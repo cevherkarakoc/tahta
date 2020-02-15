@@ -82,7 +82,7 @@ const renderTargets = {
     width: canvas.width,
     height: canvas.height
   },
-  other: createRenderTarget(256, 256, gl.COLOR_ATTACHMENT0)
+  other: createRenderTarget(256, 256, { point: gl.COLOR_ATTACHMENT0, format: gl.RGBA})
 };
 
 const loop = state => timestamp => {
