@@ -1,32 +1,14 @@
-exports.createShader = require('./src/createShader');
-exports.createShaderProgram = require('./src/createShaderProgram');
-exports.createMesh = require('./src/createMesh');
+exports.createShader = require('./src/renderer/create/shader');
+exports.createShaderProgram = require('./src/renderer/create/shaderProgram');
+exports.createMesh = require('./src/renderer/create/mesh');
+exports.createTexture = require('./src/renderer/create/texture');
+exports.createRenderTarget = require('./src/renderer/create/renderTarget');
 
-/* Render */
-exports.render = require('./src/render/render');
-exports.createRenderTarget = require('./src/render/createRenderTarget');
-exports.target = require('./src/render/target');
+exports.target = require('./src/renderer/target');
+exports.drawAll = require('./src/renderer/drawAll');
+exports.bindTextures = require('./src/renderer/bindTextures');
+exports.render = require('./src/renderer/render');
 
-exports.uniformAll = require('./src/render/uniformAll');
-exports.bindTextures = require('./src/render/bindTextures');
-exports.drawAll = require('./src/render/drawAll');
-/* Render END*/
+exports.uniformAll = require('./src/renderer/uniformAll');
 
-/* Texture */
-exports.loadImage = require('./src/texture/loadImage');
-exports.createTexture = require('./src/texture/createTexture');
-/* Texture END*/
-
-exports.initTahta = gl => ({
-  render: exports.render(gl),
-  createRenderTarget: exports.createRenderTarget(gl),
-  target: exports.target(gl),
-  bindTextures: exports.bindTextures(gl),
-  drawAll: exports.drawAll(gl),
-
-  createShader: exports.createShader(gl),
-  createShaderProgram: exports.createShaderProgram(gl),
-  createMesh: exports.createMesh(gl),
-
-  createTexture: exports.createTexture(gl),
-});
+exports.createRenderer = require('./src/createRenderer');

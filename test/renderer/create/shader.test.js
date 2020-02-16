@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 
-const createShader = require('../src/createShader');
+const createShader = require('../../../src/renderer/create/shader');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');

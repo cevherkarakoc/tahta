@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 
-const createTexture = require('../../src/texture/createTexture');
+const createTexture = require('../../../src/renderer/create/texture');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');

@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 
-const uniformAll = require('../../src/render/uniformAll');
+const uniformAll = require('../../src/renderer/uniformAll');
 
 const test = () => {
   const canvas = document.querySelector('#webgl-canvas');

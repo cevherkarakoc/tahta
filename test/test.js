@@ -1,30 +1,28 @@
 import { mocha } from 'mocha';
-import test_createMesh from './createMesh.test.js';
-import test_createShader from './createShader.test.js';
-import test_createShaderProgram from './createShaderProgram.test.js';
 
-import test_loadImage from './texture/loadImage.test.js';
-import test_createTexture from './texture/createTexture.test.js';
+import test_createMesh from './renderer/create/mesh.test.js';
+import test_createShader from './renderer/create/shader.test.js';
+import test_createShaderProgram from './renderer/create/shaderProgram.test.js';
+import test_createTexture from './renderer/create/texture.test.js';
+import test_createRenderTarget from './renderer/create/renderTarget.test.js';
 
-import test_createRenderTarget from './render/createRenderTarget.test.js';
-import test_uniformAll from './render/uniformAll.test.js';
+import test_uniformAll from './renderer/uniformAll.test.js';
 
 mocha.setup({
   ui: 'bdd',
   ignoreLeaks: true,
 });
 
-test_createMesh();
-test_createShader();
-test_createShaderProgram();
-
-describe('Texture Related Functions', function() {
-  test_loadImage();
+describe('Creating Functions', function () {
+  test_createShader();
+  test_createShaderProgram();
+  test_createMesh();
   test_createTexture();
+  test_createRenderTarget();
+
 });
 
-describe('Rendering Related Functions', function() {
-  test_createRenderTarget();
+describe('Rendering Functions', function () {
   test_uniformAll();
 });
 

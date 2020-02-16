@@ -1,35 +1,31 @@
 import GLMath, { Vector, Matrix, Transform, Camera } from 'webgl-math';
 
-import { initTahta } from '../../index';
+import { createRenderer } from '../../index';
 
 import vsSource from './shaders/basic.vert';
 import fsSource from './shaders/basic.frag';
 
 const canvas = document.querySelector('#webgl-canvas-manual');
-const gl = canvas.getContext('webgl2', { premultipliedAlpha: false });
 
 const canvas2d = document.querySelector('#webgl-canvas2d');
 const ctx2d = canvas2d.getContext('2d');
 const imgElm = document.querySelector('#the-image');
 
 const {
+  gl,
+  Create,
   render,
-  createRenderTarget,
   target,
-  createShader,
-  createShaderProgram,
-  createMesh,
-  createTexture,
   drawAll,
-} = initTahta(gl);
+} = createRenderer(canvas, { premultipliedAlpha: false });
 
 gl.clearColor(0.1, 0.1, 0.1, 0.0);
 gl.frontFace(gl.CCW);
 
 // Create a shader program
-const vertex = createShader(gl.VERTEX_SHADER, vsSource);
-const fragment = createShader(gl.FRAGMENT_SHADER, fsSource);
-const sp = createShaderProgram(vertex, fragment);
+const vertex = Create.shader(gl.VERTEX_SHADER, vsSource);
+const fragment = Create.shader(gl.FRAGMENT_SHADER, fsSource);
+const sp = Create.shaderProgram(vertex, fragment);
 
 // Create a mesh
 const vertices = new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0]);
@@ -59,14 +55,14 @@ const attributes = [
   },
 ];
 
-const square = createMesh(attributes, { aPosition: vertices, aTexCoord: texCoord }, indices, gl.TRIANGLES);
+const square = Create.mesh(attributes, { aPosition: vertices, aTexCoord: texCoord }, indices, gl.TRIANGLES);
 
 const meshList = [square];
 
 // Load textures
 const textureList = [
-  createTexture(document.getElementById('texA'), true),
-  createTexture(document.getElementById('texB'), true),
+  Create.texture(document.getElementById('texA'), true),
+  Create.texture(document.getElementById('texB'), true),
 ];
 
 const X = 0,
@@ -82,7 +78,7 @@ const renderTargets = {
     width: canvas.width,
     height: canvas.height
   },
-  other: createRenderTarget(256, 256, { point: gl.COLOR_ATTACHMENT0, format: gl.RGBA})
+  other: Create.renderTarget(256, 256, { point: gl.COLOR_ATTACHMENT0, format: gl.RGBA})
 };
 
 const loop = state => timestamp => {
