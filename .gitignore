@@ -60,3 +60,5 @@ typings/
 #
 .cache
 dist
+
+.DS_Store
